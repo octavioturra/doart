@@ -1,0 +1,65 @@
+<script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.12/paper.js"></script>
+
+<link rel="import" href="light-table.html">
+<link rel="import" href="paper-canvas.html">
+<link rel="import" href="simple-brush.html">
+<link rel="import" href="header-bar.html">
+
+<polymer-element name="do-art">
+  <template>
+    <header-bar id="headerBar"></header-bar>  
+    <main>
+        <simple-brush id="simpleBrush" opacity="{{config.opacity}}" fillColor="{{config.color}}" strokeColor="{{config.color}}"></simple-brush>
+        <light-table width="{{'100%'}}" height="{{'100%'}}">
+          <paper-canvas id="scenario"></paper-canvas>
+        </light-table>  
+    </main>
+
+    <style>
+      :host{
+        position:absolute;
+        left:0;
+        top:0;
+        width:100%;
+        height:100%;
+        display: flex;
+        flex-direction: column;
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+      }  
+      :host>*{
+        flex: 1 auto;
+        position: relative;
+      }
+      :host>main{
+        height:100%;
+      }
+    </style>
+  </template>
+  <script>
+    Polymer('do-art', {
+      color : 'black',
+      config : {},
+      test : function(text){
+        return function(){
+          alert(text);
+        }
+      },
+      ready:function(){ 
+        var self = this;
+        this.$.scenario.brush = this.$.simpleBrush;
+        this.config = this.$.headerBar.config;
+        this.$.scenario.prepare();
+      },
+      attached: function(){
+        var self = this;
+        this.$.headerBar.export = function(){
+          return self.$.scenario.export();
+        };
+        this.$.headerBar.createNew = self.$.scenario.clear
+      }
+    });
+  </script>
+</polymer-element>

@@ -1,0 +1,79 @@
+<link rel="import" href="input-slider.html">
+<link rel="import" href="bicolor-selector.html">
+
+<polymer-element name="header-bar" attributes="createNew import file filename">
+  <template>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" />
+    <nav>
+      <span class="fa fa-tint"></span>
+      <!--bicolor-selector></bicolor-selector-->
+      <input type="color" value="{{config.color}}">
+      <span class="fa fa-signal"></span>:
+      <input-slider value="{{config.opacity}}"></input-slider>
+
+      <span class="fa fa-gears"></span>:
+      <button on-click="{{doCreateNew}}"><span class="fa fa-file"></span></button>
+      <a href="{{file}}" download="art.png" mimetype="image/png" on-click="{{doExport}}"><span class="fa fa-download"></span></a>
+    </nav>
+    <style>
+      :host {
+        box-shadow: inset 0 -2px 5px #666;
+        padding: 10px;
+      }
+      nav {
+        padding-top: 2px;
+        padding-bottom: 2px;
+        padding-left: 10px;
+        vertical-align: center;
+      }
+      button, a{
+        border:none;
+        border-radius:none;
+        color:white;
+        background: black;
+        padding:5px;
+        cursor:pointer;
+        outline:0;
+      }
+      button:hover, a:hover{
+        background: #666;
+      }
+      input{
+        border:0;
+        padding:0;
+        background: transparent;
+      }
+    </style>
+  </template>
+  <script>
+    Polymer('header-bar', {
+      file: '',
+      filename: "#",
+      doCreateNew : function(){
+        this.createNew();
+      },
+      createNew: function(){
+        throw new Error('Not implemented action');
+      },
+      doExport : function(){
+        this.file = this.export();
+      },
+      doImport  : function(){
+        
+      },
+      export : function(){
+        throw new Error('Not implemented action');
+      },
+      import : function(){
+        throw new Error('Not implemented action');
+      },
+      config: {
+        color: 'black',
+        opacity: 1
+      },
+      configure: function(ev, details, sender) {
+        this.config[sender.dataset['property']] = sender.dataset['value'];
+      }
+    })
+  </script>
+</polymer-element>

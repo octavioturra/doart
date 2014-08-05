@@ -1,0 +1,26 @@
+<polymer-element name="simple-brush" attributes="fillColor strokeColor opacity modifiers">
+  <script>
+    Polymer('simple-brush', {
+      name : 'Simple Brush',
+      description : 'Simple Brush',
+      fillColor : null,
+      strokeColor: 'black',
+      modifiers : [],
+      opacity: 1,
+      path : null,
+        initialize: function(){
+          this.path = new paper.Path();
+          this.path.strokeColor = this.strokeColor;
+          this.path.fillColor = this.fillColor;
+          this.path.opacity = this.opacity;
+          return this.path;
+        },
+        paint : function(point){
+          if (point) {
+            this.path.add(point);
+          }
+          return this.path;
+        }
+    })
+  </script>
+</polymer-element>

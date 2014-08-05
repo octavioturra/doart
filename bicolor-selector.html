@@ -1,0 +1,38 @@
+<polymer-element name="bicolor-selector">
+  <template>
+    <link rel="stylesheet" href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.1.0/css/font-awesome.min.css" />
+    <span class="fa fa-tint" title="Select a color"></span>
+    <label for="primary">
+      <span class="fa fa-circle"></span>
+      <input type="color" id="primary" style="color:{{primary}}" value="{{primary}}">
+    </label>
+    <label for="secundary">
+      <span class="fa fa-circle" style="color:{{secundary}}"></span>
+      <input type="color" id="secundary" value="{{secundary}}">
+    </label>
+    <style>
+      label{
+        width:15px;
+        height:17px;
+        overflow: hidden;
+        display: inline-block;
+      }
+      input[type=color]{
+        /*width:0;
+        border:0;
+        padding:0;
+        height:0;
+        outline:0;*/
+        position: absolute;
+      }
+    </style>
+  </template>
+  <script>
+    Polymer('bicolor-selector', {
+      color : 'black',
+      primary : '#000',
+      secundary : '#fff',
+      selected : 'primary'
+    });
+  </script>
+</polymer-element>
