@@ -4,3 +4,10 @@ body{
   background: #ccc;
   font-family: verdana;
 }
+body>*{
+	opacity:1;
+	transition: opacity 300ms ease-in-out;
+}
+body>*[unresolved]{
+	opacity:0;
+}

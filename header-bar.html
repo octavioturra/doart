@@ -15,10 +15,17 @@
       <span class="fa fa-gears"></span>:
       <button on-click="{{doCreateNew}}"><span class="fa fa-file"></span></button>
       <a href="{{file}}" download="{{filename}}" mimetype="image/png" on-click="{{doExport}}"><span class="fa fa-download"></span></a>
+      <a href="https://www.facebook.com/sharer/sharer.php?u=http://octavioturra.github.io/doart/" class="social" target="_blank">
+      	<span class="fa fa-facebook"></span>
+      </a>
+      <a href="https://github.com/octavioturra/doart" class="social">
+      	<span class="fa fa-github"></span>
+      </a>
     </nav>
+
     <style>
       :host {
-        box-shadow: inset 0 -2px 5px #666;
+        box-shadow: inset 0 -2px 5px #AAA;
         padding: 10px;
       }
 			h1{
@@ -50,6 +57,10 @@
         padding:0;
         background: transparent;
       }
+      .social{
+				float:right;
+				margin-right:3px;
+			}
     </style>
   </template>
   <script>
