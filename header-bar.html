@@ -13,7 +13,7 @@
 
       <span class="fa fa-gears"></span>:
       <button on-click="{{doCreateNew}}"><span class="fa fa-file"></span></button>
-      <a href="{{file}}" download="art.png" mimetype="image/png" on-click="{{doExport}}"><span class="fa fa-download"></span></a>
+      <a href="{{file}}" download="{{filename}}" mimetype="image/png" on-click="{{doExport}}"><span class="fa fa-download"></span></a>
     </nav>
     <style>
       :host {
@@ -56,6 +56,7 @@
         throw new Error('Not implemented action');
       },
       doExport : function(){
+				this.filename = 'do-art-' + new Date().valueOf() + '.png';
         this.file = this.export();
       },
       doImport  : function(){

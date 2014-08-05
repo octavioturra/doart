@@ -9,13 +9,24 @@ Roadmap
 =====
 
 - Make history as a module
-- Rename image with timestamp
+
 - Load image as background
 - Save image into local storage
 - Load image from local storage
 - Bicolor selector with fast hotkey switch
-- Zoom, pan canvas
 - Vertical and horizontal mirror with configurable reference
 - Simple Layers
 - Better UI
+- Clear must reset canvas position
+- Zoom canvas
 
+Features
+====
+
+- Brush
+- Opacity
+- Color
+- Pan (w/ ALT)
+- Export image
+- Rename image with timestamp
+- Clear canvas
