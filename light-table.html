@@ -1,9 +1,16 @@
+<script src="http://zynga.github.io/scroller/src/Scroller.js"></script>
 <polymer-element name="light-table" attributes="width height originX originY">
   <template>
-    <content>
-      
-    </content>
+   	<div id="container">
+   		<div id="content" on-mousedown="{{down}}" on-mouseup="{{up}}">
+   			 <content></content>
+   		</div>
+   	</div>
+
     <style>
+			#content{
+					padding:10px;
+			}
       :host{
         padding:0;
         display: block;
@@ -12,13 +19,131 @@
         left:0;
         width: {{width}};
         height: {{height}};
+				-webkit-background-size: 50px 50px;
+				-moz-background-size: 50px 50px;
+				background-size: 50px 50px;
+					overflow: hidden;
+					background-image: linear-gradient(45deg, #555 25%, transparent 25%, transparent),
+										linear-gradient(-45deg, #555 25%, transparent 25%, transparent),
+										linear-gradient(45deg, transparent 75%, #555 75%),
+											linear-gradient(-45deg, transparent 75%, #555 75%);
       }
+
     </style>
   </template>
   <script>
     Polymer('light-table', {
       width: 640,
-      height: 480
+      height: 480,
+			scroller:null,
+			render : null,
+			down : function(ev){
+					if(ev.altKey){
+
+					}
+			},
+			up: function(ev){
+
+			},
+      attached: function(){
+         	var container = this.$.container;
+					var content = this.$.content;
+					this.render = (function(global) {
+							var docStyle = document.documentElement.style;
+
+							var engine;
+							if (global.opera && Object.prototype.toString.call(opera) === '[object Opera]') {
+								engine = 'presto';
+							} else if ('MozAppearance' in docStyle) {
+								engine = 'gecko';
+							} else if ('WebkitAppearance' in docStyle) {
+								engine = 'webkit';
+							} else if (typeof navigator.cpuClass === 'string') {
+								engine = 'trident';
+							}
+
+							var vendorPrefix = {
+								trident: 'ms',
+								gecko: 'Moz',
+								webkit: 'Webkit',
+								presto: 'O'
+							}[engine];
+
+							var helperElem = document.createElement("div");
+							var undef;
+
+							var perspectiveProperty = vendorPrefix + "Perspective";
+							var transformProperty = vendorPrefix + "Transform";
+
+							if (helperElem.style[perspectiveProperty] !== undef) {
+
+								return function(left, top, zoom) {
+									content.style[transformProperty] = 'translate3d(' + (-left) + 'px,' + (-top) + 'px,0) scale(' + zoom + ')';
+								};
+
+							} else if (helperElem.style[transformProperty] !== undef) {
+
+								return function(left, top, zoom) {
+									content.style[transformProperty] = 'translate(' + (-left) + 'px,' + (-top) + 'px) scale(' + zoom + ')';
+								};
+
+							} else {
+
+								return function(left, top, zoom) {
+									content.style.marginLeft = left ? (-left/zoom) + 'px' : '';
+									content.style.marginTop = top ? (-top/zoom) + 'px' : '';
+									content.style.zoom = zoom || '';
+								};
+
+							}
+					})(window);
+					this.scroller = new Scroller(this.render, {
+							zooming: true
+					});
+
+					console.log(this.scroller)
+
+					var mousedown = false;
+					var self = this;
+					container.addEventListener("mousedown", function(e) {
+						if(!e.altKey) return;
+						self.scroller.doTouchStart([{
+							pageX: e.pageX,
+							pageY: e.pageY
+						}], e.timeStamp);
+
+						mousedown = true;
+					}, false);
+
+					this.addEventListener("mousemove", function(e) {
+							if(!e.altKey) return;
+						if (!mousedown) {
+							return;
+						}
+
+						self.scroller.doTouchMove([{
+							pageX: e.pageX,
+							pageY: e.pageY
+						}], e.timeStamp);
+
+						mousedown = true;
+					}, false);
+
+					this.addEventListener("mouseup", function(e) {
+							if(!e.altKey) return;
+						if (!mousedown) {
+							return;
+						}
+
+						self.scroller.doTouchEnd(e.timeStamp);
+
+						mousedown = false;
+					}, false);
+
+					/*container.addEventListener("mousewheel", function(e) {
+						self.scroller.doMouseZoom(e.wheelDelta, e.timeStamp, e.pageX, e.pageY);
+					}, false);*/
+			}
     });
   </script>
 </polymer-element>

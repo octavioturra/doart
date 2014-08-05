@@ -65,6 +65,7 @@
 
         // Define a mousedown and mousedrag handler
         tool.onMouseDown = function(ev) {
+					if(ev.event.altKey) return;
           path = self.brush.initialize();
           
           self.brush.paint(ev.point);
@@ -89,12 +90,14 @@
         
 
         tool.onMouseUp = function(ev) {
+					if(ev.event.altKey) return;
           if (ev.point){
             self.brush.paint(ev.point);
           }
         }
 
         tool.onMouseDrag = function(ev) {
+					if(ev.event.altKey) return;
           if (ev.point){
             self.brush.paint(ev.point);
           }          
