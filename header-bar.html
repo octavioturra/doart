@@ -68,7 +68,9 @@
       file: '',
       filename: "#",
       doCreateNew : function(){
-        this.createNew();
+				if(confirm('Do you wanna clear your board?')){
+					this.createNew();
+				}
       },
       createNew: function(){
         throw new Error('Not implemented action');
