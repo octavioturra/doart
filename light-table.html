@@ -1,9 +1,10 @@
 <script src="http://zynga.github.io/scroller/src/Scroller.js"></script>
+<script src="http://zynga.github.io/scroller/src/Animate.js"></script>
 <polymer-element name="light-table" attributes="width height originX originY">
   <template>
    	<div id="container">
    		<div id="content" on-mousedown="{{down}}" on-mouseup="{{up}}">
-   			 <content></content>
+   			 <content id="_content"></content>
    		</div>
    	</div>
 
@@ -45,9 +46,12 @@
 			up: function(ev){
 
 			},
+			reset: null,
       attached: function(){
          	var container = this.$.container;
 					var content = this.$.content;
+					var self = this;
+
 					this.render = (function(global) {
 							var docStyle = document.documentElement.style;
 
@@ -101,10 +105,27 @@
 							zooming: true
 					});
 
-					console.log(this.scroller)
+					console.log(this.innerWidth);
+
+					var clientWidth = window.innerWidth;
+					var clientHeight = window.innerHeight;
+
+					var reflow = function() {
+						console.log('reflow')
+						clientWidth = container.clientWidth;
+						clientHeight = container.clientHeight;
+						self.scroller.setDimensions(0, 0, clientHeight*1000, clientHeight*1000);
+					};
+
+					window.addEventListener("resize", reflow, false);
+					reflow();
+
+					this.reset = function(){
+						self.scroller.scrollTo(0,0);
+					};
 
 					var mousedown = false;
-					var self = this;
+
 					container.addEventListener("mousedown", function(e) {
 						if(!e.altKey) return;
 						self.scroller.doTouchStart([{
@@ -130,7 +151,7 @@
 					}, false);
 
 					this.addEventListener("mouseup", function(e) {
-							if(!e.altKey) return;
+						if(!e.altKey) return;
 						if (!mousedown) {
 							return;
 						}
@@ -140,9 +161,9 @@
 						mousedown = false;
 					}, false);
 
-					/*container.addEventListener("mousewheel", function(e) {
+					container.addEventListener("mousewheel", function(e) {
 						self.scroller.doMouseZoom(e.wheelDelta, e.timeStamp, e.pageX, e.pageY);
-					}, false);*/
+					}, false);
 			}
     });
   </script>
