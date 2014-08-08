@@ -1,11 +1,38 @@
-<polymer-element name="paper-canvas">
+<script src="//cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.12/paper.js"></script>
+<polymer-element name="paper-canvas" attributes="width height">
 	<template>
 		<canvas id="canvas"></canvas>
+		<style>
+			:host{
+				width: {{width}};
+				height: {{height}};
+			}
+			canvas{
+				width: 100%;
+				height: 100%;
+			}
+		</style>
 	</template>
 	<script>
-		Polymer('paper-canvas', function(){
-			attached: function(){
+		Polymer('paper-canvas', {
+			width: '100%',
+			height: '100%',
+			paper: null,
+			canvas: null,
+			ready:function(){
+				this.paper = paper;
+				this.canvas = this.$.canvas;
+			},
+			attached: function () {
 
+				this.paper.setup(this.canvas);
+
+				var path = new paper.Path();
+				path.strokeColor = 'red';
+				path.opacity = 1;
+
+				path.add(new paper.Point(10,20));
+				path.add(new paper.Point(1000,20))
 			}
 		});
 	</script>
