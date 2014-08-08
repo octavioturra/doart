@@ -2,7 +2,7 @@
 <script src="//cdnjs.cloudflare.com/ajax/libs/paper.js/0.9.12/paper.js"></script>
 
 <link rel="import" href="light-table.html">
-<link rel="import" href="paper-canvas.html">
+<link rel="import" href="canvas-controls.html">
 <link rel="import" href="simple-brush.html">
 <link rel="import" href="header-bar.html">
 
@@ -12,7 +12,7 @@
     <main>
         <simple-brush id="simpleBrush" opacity="{{config.opacity}}" fillColor="{{config.color}}" strokeColor="{{config.color}}"></simple-brush>
         <light-table width="{{'100%'}}" height="{{'100%'}}">
-          <paper-canvas id="scenario"></paper-canvas>
+          <canvas-controls id="scenario"></canvas-controls>
         </light-table>  
     </main>
 

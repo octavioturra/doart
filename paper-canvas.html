@@ -1,108 +1,12 @@
-<polymer-element name="paper-canvas" attributes="brush background">
-  <template>
-    <canvas id="canvas"></canvas>
-    <style>
-      :host {
-        display: block;
-        width: 100%;
-        height: 100%;
-      }
-      #canvas {
-        width: 100%;
-        height: 100%;
-        float:left;
-        cursor: crosshair;
-        //background: {{background}};
-      }
-    </style>
-  </template>
-  <script>
-    Polymer('paper-canvas', {
-      background: 'white',
-      brush:{
-        name : 'Default Brush',
-        description : 'Default Brush',
-        path : null,
-        initialize: function(){
-          this.path = new paper.Path();
-          this.path.strokeColor = 'black';
-          this.path.opacity = 1;
-          return this.path;
-        },
-        paint : function(point){
-          if (point) {
-            this.path.add(point);
-          }
-          return this.path;
-        }
-      },
-      clear: function(){},
-      import: function(){
-        
-      },
-      export: function(){
-        return this.$.canvas.toDataURL("image/png");
-      },
-      prepare: function() {
-        var self = this;
-        var canvas = this.$.canvas;
-        paper.setup(canvas);
-        
-        var background = new paper.Path.Rectangle(paper.view.bounds);
-        background.fillColor = 'white';
+<polymer-element name="paper-canvas">
+	<template>
+		<canvas id="canvas"></canvas>
+	</template>
+	<script>
+		Polymer('paper-canvas', function(){
+			attached: function(){
 
-        var tool = new paper.Tool();
-        var path;
-
-        var paths = [];
-
-        this.clear = function(){
-          while(paths.length>0){
-            var path = paths.pop();
-            path.remove();
-          }
-        }
-
-        // Define a mousedown and mousedrag handler
-        tool.onMouseDown = function(ev) {
-					if(ev.event.altKey) return;
-          path = self.brush.initialize();
-          
-          self.brush.paint(ev.point);
-          
-          paths.push(path);
-        };
-
-        function undo() {
-          if (paths.length === 0) {
-            return;
-          }
-          var path = paths.pop();
-          path.remove();
-          paper.view.draw();
-        }
-
-        $(document).on('keydown', function(ev) {
-          if (ev.ctrlKey && ev.keyCode === 90) {
-            undo();
-          }
-        });
-        
-
-        tool.onMouseUp = function(ev) {
-					if(ev.event.altKey) return;
-          if (ev.point){
-            self.brush.paint(ev.point);
-          }
-        }
-
-        tool.onMouseDrag = function(ev) {
-					if(ev.event.altKey) return;
-          if (ev.point){
-            self.brush.paint(ev.point);
-          }          
-        };
-      }
-    });
-  </script>
+			}
+		});
+	</script>
 </polymer-element>
